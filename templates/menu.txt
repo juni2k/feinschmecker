@@ -1,0 +1,6 @@
+[ {{- .Date -}} ]( {{- .Link -}} )
+
+{{ range .Dishes }}
+* {{- .Label -}} *
+    {{ .Price }} · {{ .Icons }}
+{{ end }}
