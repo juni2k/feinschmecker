@@ -5,8 +5,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"strings"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
+
+	"github.com/nanont/feinschmecker/menu"
 )
 
 func main() {
@@ -50,8 +53,17 @@ func main() {
 
 		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
 
-		msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
-		msg.ReplyToMessageID = update.Message.MessageID
+		text := update.Message.Text
+
+		reply := "[Reply not specified]"
+		// TODO: re-work this into some kind of map / ...
+		if strings.HasPrefix(text, "/now") {
+			reply = menu.Show(menu.Now)
+		}
+
+		msg := tgbotapi.NewMessage(update.Message.Chat.ID, reply)
+		msg.ParseMode = "Markdown"
+		// msg.ReplyToMessageID = update.Message.MessageID
 
 		bot.Send(msg)
 	}
