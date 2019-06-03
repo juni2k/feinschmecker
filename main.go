@@ -59,6 +59,8 @@ func main() {
 		// TODO: re-work this into some kind of map / ...
 		if strings.HasPrefix(text, "/now") {
 			reply = menu.Show(menu.Now)
+		} else if strings.HasPrefix(text, "/next") {
+			reply = menu.Show(menu.Next)
 		}
 
 		msg := tgbotapi.NewMessage(update.Message.Chat.ID, reply)

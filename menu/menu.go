@@ -27,23 +27,30 @@ type Dish struct {
 	Icons string
 }
 
+type UrlParams struct {
+	Language string
+	Year     uint
+	Day      uint8
+}
+
 const (
 	Now  Request = iota
 	Next Request = iota
 )
 
 const (
-	MenuURL = "https://speiseplan.studierendenwerk-hamburg.de/en/570/2019/0/"
+	MenuURL     = "https://speiseplan.studierendenwerk-hamburg.de/en/570/2019/0/"
+	MenuUrlTmpl = "https://speiseplan.studierendenwerk-hamburg.de/{{.Language}}/570/{{.Year}}/{{.Day}}/"
 )
 
 func Show(request Request) string {
-	resp, err := http.Get(MenuURL)
+	resp, err := http.Get(urlFor(request))
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer resp.Body.Close()
 
-	menu := parse(MenuURL, resp.Body)
+	menu := parse(urlFor(request), resp.Body)
 	//	fmt.Printf("%+v", menu)
 
 	template, err := template.ParseFiles("templates/menu.txt")
@@ -55,6 +62,29 @@ func Show(request Request) string {
 	err = template.Execute(buf, menu)
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	return buf.String()
+}
+
+func urlFor(request Request) string {
+	params := UrlParams{"en", 2019, 0}
+
+	if request == Now {
+		params.Day = 0
+	} else if request == Next {
+		params.Day = 99
+	}
+
+	tmpl, err := template.New("menuUrl").Parse(MenuUrlTmpl)
+	if err != nil {
+		panic(err)
+	}
+
+	buf := new(bytes.Buffer)
+	err = tmpl.Execute(buf, params)
+	if err != nil {
+		panic(err)
 	}
 
 	return buf.String()
