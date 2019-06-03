@@ -24,7 +24,8 @@ my $icons = {
     'Contains venison' => "\x{1f98c}",
     'Favorite Food'    => "\x{2764}\x{fe0f}",
     'Contains poultry' => "\x{1f414}",
-    'Climate plate'    => "\x{1f332}"
+    'Climate plate'    => "\x{1f332}",
+    'New meal'         => "\x{1f195}"
   },
   'de' => {
     'Klima Teller'      => "\x{1f332}",
@@ -38,7 +39,8 @@ my $icons = {
     'Mit Fisch'         => "\x{1f41f}",
     'Vegan'             => "\x{24cb}",
     'Mensa Vital'       => "\x{1f3cb}\x{fe0f}",
-    'Mit Alkohol'       => "\x{1f37a}"
+    'Mit Alkohol'       => "\x{1f37a}",
+    'Neues Gericht'     => "\x{1f195}"
   }
 };
 
