@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/nanont/feinschmecker/sessions"
 	"github.com/nanont/feinschmecker/lang"
 	"io/ioutil"
 	"log"
@@ -33,6 +34,8 @@ func main() {
 		log.Fatal(err)
 	}
 
+	sessionMap := sessions.Init()
+
 	bot, err := tgbotapi.NewBotAPI(config.Telegram.Token)
 	if err != nil {
 		log.Panic(err)
@@ -53,6 +56,9 @@ func main() {
 		}
 
 		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
+
+		session := sessions.GetOrNew(sessionMap, update.Message.Chat.ID)
+		_ = session
 
 		text := update.Message.Text
 
