@@ -2,6 +2,7 @@ package menu
 
 import (
 	"bytes"
+	"github.com/nanont/feinschmecker/lang"
 	"io"
 	"log"
 	"net/http"
@@ -14,6 +15,7 @@ import (
 )
 
 type Request int
+type Language int
 
 type Menu struct {
 	Date   string
@@ -43,14 +45,14 @@ const (
 	MenuUrlTmpl = "https://speiseplan.studierendenwerk-hamburg.de/{{.Language}}/570/{{.Year}}/{{.Day}}/"
 )
 
-func Show(request Request) string {
-	resp, err := http.Get(urlFor(request))
+func Show(request Request, language lang.Language) string {
+	resp, err := http.Get(urlFor(request, language))
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer resp.Body.Close()
 
-	menu := parse(urlFor(request), resp.Body)
+	menu := parse(urlFor(request, language), resp.Body)
 	//	fmt.Printf("%+v", menu)
 
 	template, err := template.ParseFiles("templates/menu.txt")
@@ -67,13 +69,19 @@ func Show(request Request) string {
 	return buf.String()
 }
 
-func urlFor(request Request) string {
+func urlFor(request Request, language lang.Language) string {
 	params := UrlParams{"en", 2019, 0}
 
 	if request == Now {
 		params.Day = 0
 	} else if request == Next {
 		params.Day = 99
+	}
+
+	if language == lang.En {
+		params.Language = "en"
+	} else if language == lang.De {
+		params.Language = "de"
 	}
 
 	tmpl, err := template.New("menuUrl").Parse(MenuUrlTmpl)

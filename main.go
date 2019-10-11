@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/nanont/feinschmecker/lang"
 	"io/ioutil"
 	"log"
 	"strings"
@@ -58,9 +59,9 @@ func main() {
 		reply := "[Reply not specified]"
 		// TODO: re-work this into some kind of map / ...
 		if strings.HasPrefix(text, "/now") {
-			reply = menu.Show(menu.Now)
+			reply = menu.Show(menu.Now, lang.En)
 		} else if strings.HasPrefix(text, "/next") {
-			reply = menu.Show(menu.Next)
+			reply = menu.Show(menu.Next, lang.En)
 		}
 
 		msg := tgbotapi.NewMessage(update.Message.Chat.ID, reply)
