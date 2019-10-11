@@ -65,9 +65,15 @@ func main() {
 		reply := "[Reply not specified]"
 		// TODO: re-work this into some kind of map / ...
 		if strings.HasPrefix(text, "/now") {
-			reply = menu.Show(menu.Now, lang.En)
+			reply = menu.Show(menu.Now, session.Language)
 		} else if strings.HasPrefix(text, "/next") {
-			reply = menu.Show(menu.Next, lang.En)
+			reply = menu.Show(menu.Next, session.Language)
+		} else if strings.HasPrefix(text, "/en") {
+			session.Language = lang.En
+			reply = "Excellent!"
+		} else if strings.HasPrefix(text, "/de") {
+			session.Language = lang.De
+			reply = "Sehr gut!"
 		}
 
 		msg := tgbotapi.NewMessage(update.Message.Chat.ID, reply)

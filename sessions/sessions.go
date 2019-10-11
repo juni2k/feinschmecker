@@ -1,6 +1,9 @@
 package sessions
 
+import "github.com/nanont/feinschmecker/lang"
+
 type Session struct {
+	Language lang.Language
 }
 
 type SessionMap map[int64]*Session
