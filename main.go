@@ -7,6 +7,7 @@ import (
 	"github.com/nanont/feinschmecker/lang"
 	"io/ioutil"
 	"log"
+	"os"
 	"strings"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
@@ -23,6 +24,7 @@ func main() {
 	}
 
 	type Config struct {
+		Workdir string `json:"workdir"`
 		Telegram struct {
 			Token string `json:"token"`
 		} `json:"telegram"`
@@ -30,6 +32,12 @@ func main() {
 
 	config := Config{}
 	err = json.Unmarshal(configRaw, &config)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Ensure workdir is present
+	err = os.MkdirAll(config.Workdir, 0755)
 	if err != nil {
 		log.Fatal(err)
 	}
