@@ -2,6 +2,7 @@ package menu
 
 import (
 	"bytes"
+	"github.com/nanont/feinschmecker/bindata"
 	"github.com/nanont/feinschmecker/lang"
 	"io"
 	"log"
@@ -55,7 +56,12 @@ func Show(request Request, language lang.Language) string {
 	menu := parse(urlFor(request, language), resp.Body)
 	//	fmt.Printf("%+v", menu)
 
-	tmpl, err := template.ParseFiles("templates/menu.txt")
+	tmplBytes, err := bindata.Asset("templates/menu.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	tmpl, err := template.New("menu").Parse(string(tmplBytes))
 	if err != nil {
 		log.Fatal(err)
 	}

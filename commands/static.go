@@ -2,6 +2,7 @@ package commands
 
 import (
 	"bytes"
+	"github.com/nanont/feinschmecker/bindata"
 	"github.com/nanont/feinschmecker/config"
 	"github.com/nanont/feinschmecker/lang"
 	"github.com/nanont/feinschmecker/reply"
@@ -29,7 +30,12 @@ func Start(conf *config.Config, session *sessions.Session) *reply.Reply {
 		tmplPath = "templates/start.de.txt"
 	}
 
-	tmpl, err := template.ParseFiles(tmplPath)
+	tmplBytes, err := bindata.Asset(tmplPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	tmpl, err := template.New("start").Parse(string(tmplBytes))
 	if err != nil {
 		log.Fatal(err)
 	}
