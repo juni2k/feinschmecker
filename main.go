@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/nanont/feinschmecker/commands"
+	"github.com/nanont/feinschmecker/reply"
 	"github.com/nanont/feinschmecker/sessions"
 	"io/ioutil"
 	"log"
@@ -12,6 +13,8 @@ import (
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
+
+type CommandMap map[string]func (session2 *sessions.Session) *reply.Reply
 
 func main() {
 	fmt.Println("Started Feinschmecker!")
@@ -66,22 +69,23 @@ func main() {
 		session := sessions.GetOrNew(sessionMap, update.Message.Chat.ID)
 		_ = session
 
-		text := update.Message.Text
+		text := strings.TrimSpace(update.Message.Text)
 
-		// This is the default reply
-		rep := commands.Default(session)
+		commandMap := CommandMap{
+			"/start": commands.Start,
+			"/now": commands.Now,
+			"/next": commands.Next,
+			"/en": commands.En,
+			"/de": commands.De,
+		}
 
-		// TODO: re-work this into some kind of map / ...
-		if strings.HasPrefix(text, "/start") {
-			rep = commands.Start(session)
-		} else if strings.HasPrefix(text, "/now") {
-			rep = commands.Now(session)
-		} else if strings.HasPrefix(text, "/next") {
-			rep = commands.Next(session)
-		} else if strings.HasPrefix(text, "/en") {
-			rep = commands.En(session)
-		} else if strings.HasPrefix(text, "/de") {
-			rep = commands.De(session)
+		var rep *reply.Reply
+		commandFunc, ok := commandMap[text]
+		if ok {
+			rep = commandFunc(session)
+		} else {
+			// This is the default reply
+			rep = commands.Default(session)
 		}
 
 		msg := tgbotapi.NewMessage(update.Message.Chat.ID, rep.Translation(session.Language))
