@@ -55,13 +55,13 @@ func Show(request Request, language lang.Language) string {
 	menu := parse(urlFor(request, language), resp.Body)
 	//	fmt.Printf("%+v", menu)
 
-	template, err := template.ParseFiles("templates/menu.txt")
+	tmpl, err := template.ParseFiles("templates/menu.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	buf := new(bytes.Buffer)
-	err = template.Execute(buf, menu)
+	err = tmpl.Execute(buf, menu)
 	if err != nil {
 		log.Fatal(err)
 	}
