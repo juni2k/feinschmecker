@@ -42,7 +42,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	sessionMap := sessions.Init()
+	sessionMap := sessions.Init(config.Workdir)
 
 	bot, err := tgbotapi.NewBotAPI(config.Telegram.Token)
 	if err != nil {
