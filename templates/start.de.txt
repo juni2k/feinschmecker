@@ -1,0 +1,10 @@
+*Hallo.*
+
+Sende /now für das aktuelle Menü.
+Sende /next für das nächste Menü.
+
+Sende /about für eine Symbol-Legende.
+Sende /en oder /de, um die Sprache zu wechseln.
+
+Falls etwas nicht geht, ist {{ .Operator }} schuld.
+[Dieser Bot ist freie Software.]({{ .Repository }})

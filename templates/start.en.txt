@@ -1,0 +1,10 @@
+*Hello.*
+
+Type /now to display the current menu.
+Type /next to display the upcoming menu.
+
+Type /about to view an icon legend.
+Type /en or /de to switch the language.
+
+If shit hits the fan, please inform {{ .Operator }}.
+[This is free software, go fork it!]({{ .Repository }})
