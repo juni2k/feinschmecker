@@ -37,7 +37,6 @@ func Init(workdir string) SessionMap {
 
 	for _, sessionFile := range sessionFiles {
 		absPath := filepath.Join(dir, sessionFile.Name())
-		log.Printf("Loading session %s", absPath)
 
 		jsonBytes, err := ioutil.ReadFile(absPath)
 		if err != nil {

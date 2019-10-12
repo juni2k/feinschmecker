@@ -42,7 +42,6 @@ const (
 )
 
 const (
-	MenuURL     = "https://speiseplan.studierendenwerk-hamburg.de/en/570/2019/0/"
 	MenuUrlTmpl = "https://speiseplan.studierendenwerk-hamburg.de/{{.Language}}/570/{{.Year}}/{{.Day}}/"
 )
 
@@ -54,7 +53,6 @@ func Show(request Request, language lang.Language) string {
 	defer resp.Body.Close()
 
 	menu := parse(urlFor(request, language), resp.Body)
-	//	fmt.Printf("%+v", menu)
 
 	tmplBytes, err := bindata.Asset("templates/menu.txt")
 	if err != nil {
@@ -109,7 +107,6 @@ func parse(url string, siteBody io.ReadCloser) *Menu {
 
 	m.Link = url
 
-	//	fmt.Printf(string(site))
 	doc, err := goquery.NewDocumentFromReader(siteBody)
 	if err != nil {
 		log.Fatal(err)

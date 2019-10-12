@@ -21,8 +21,6 @@ func AddHeading(heading string, text string) string {
 }
 
 func Perl(in string, scriptName string, args ...string) string {
-	log.Printf("Perl in!")
-	defer log.Printf("Perl out!")
 	selfDir := filepath.Dir(os.Args[0])
 
 	cmd := exec.Command(scriptName, args...)
@@ -46,6 +44,6 @@ func Perl(in string, scriptName string, args ...string) string {
 	if err != nil {
 		log.Fatal(err)
 	}
-	// cmd.Dir =
+
 	return string(out)
 }
