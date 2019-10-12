@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"github.com/nanont/feinschmecker/config"
 	"github.com/nanont/feinschmecker/filter"
 	"github.com/nanont/feinschmecker/lang"
 	"github.com/nanont/feinschmecker/reply"
@@ -9,7 +10,7 @@ import (
 
 // lang.go contains language-switching commands
 
-func En(session *sessions.Session) *reply.Reply {
+func En(conf *config.Config, session *sessions.Session) *reply.Reply {
 	session.Language = lang.En
 	session.Save()
 
@@ -20,7 +21,7 @@ func En(session *sessions.Session) *reply.Reply {
 	}}
 }
 
-func De(session *sessions.Session) *reply.Reply {
+func De(conf *config.Config, session *sessions.Session) *reply.Reply {
 	session.Language = lang.De
 	session.Save()
 

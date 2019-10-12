@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/nanont/feinschmecker/commands"
+	"github.com/nanont/feinschmecker/config"
 	"github.com/nanont/feinschmecker/reply"
 	"github.com/nanont/feinschmecker/sessions"
 	"io/ioutil"
@@ -14,7 +15,7 @@ import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
-type CommandMap map[string]func (*sessions.Session) *reply.Reply
+type CommandMap map[string]func (*config.Config, *sessions.Session) *reply.Reply
 
 func main() {
 	fmt.Println("Started Feinschmecker!")
@@ -24,28 +25,21 @@ func main() {
 		log.Fatal(err)
 	}
 
-	type Config struct {
-		Workdir  string `json:"workdir"`
-		Telegram struct {
-			Token string `json:"token"`
-		} `json:"telegram"`
-	}
-
-	config := Config{}
-	err = json.Unmarshal(configRaw, &config)
+	conf := config.Config{}
+	err = json.Unmarshal(configRaw, &conf)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// Ensure workdir is present
-	err = os.MkdirAll(config.Workdir, 0755)
+	err = os.MkdirAll(conf.Workdir, 0755)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	sessionMap := sessions.Init(config.Workdir)
+	sessionMap := sessions.Init(conf.Workdir)
 
-	bot, err := tgbotapi.NewBotAPI(config.Telegram.Token)
+	bot, err := tgbotapi.NewBotAPI(conf.Telegram.Token)
 	if err != nil {
 		log.Panic(err)
 	}
@@ -83,10 +77,10 @@ func main() {
 		var rep *reply.Reply
 		commandFunc, ok := commandMap[text]
 		if ok {
-			rep = commandFunc(session)
+			rep = commandFunc(&conf, session)
 		} else {
 			// This is the default reply
-			rep = commands.Default(session)
+			rep = commands.Default(&conf, session)
 		}
 
 		msg := tgbotapi.NewMessage(update.Message.Chat.ID, rep.Translation(session.Language))

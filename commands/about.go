@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"github.com/nanont/feinschmecker/config"
 	"github.com/nanont/feinschmecker/filter"
 	"github.com/nanont/feinschmecker/lang"
 	"github.com/nanont/feinschmecker/reply"
@@ -9,7 +10,7 @@ import (
 
 // about.go contains the about command.
 
-func About(session *sessions.Session) *reply.Reply {
+func About(conf *config.Config, session *sessions.Session) *reply.Reply {
 	return &reply.Reply{TextMap: map[lang.Language]string{
 		lang.En: filter.AddHeading("Key",
 			filter.Perl("", "./icons.pl", "en")),
