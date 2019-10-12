@@ -15,22 +15,22 @@ use v5.18.0;
 
 my $icons = {
   en => [
-    ["\x{1f41f}", 'Contains Fish', qr/contains fish/i],
-    ["\x{24cb}", 'Vegan', qr/vegan/i],
-    ["\x{1f3cb}\x{fe0f}", 'Mensa vital', qr/mensa vital/i],
-    ["\x{1f6ab}\x{1f95b}", 'Lactose-free', qr/lactose/i],
-    ["\x{1f437}", 'Contains pork', qr/contains pork/i],
-    ["\x{1f37a}", 'Contains alcohol', qr/contains alcohol/i],
-    ["\x{1f955}", 'Vegetarian', qr/vegetarian/i],
-    ["\x{1f42e}", 'Contains beef', qr/contains beef/i],
-    ["\x{1f98c}", 'Contains wild', qr/contains (wild|venison)/i],
-    ["\x{2764}\x{fe0f}", 'Favorite Food', qr/favorite food/i],
-    ["\x{1f414}", 'Contains poultry', qr/contains poultry/i],
-    ["\x{1f332}", 'Climate plate', qr/climate plate/i],
-    ["\x{1f195}", 'New meal', qr/new meal/i]
+    ["\x{1f41f}", 'w/ ghoti', qr/contains fish/i],
+    ["\x{24cb}", 'vegan', qr/vegan/i],
+    ["\x{1f3cb}\x{fe0f}", 'healthy', qr/mensa vital/i],
+    ["\x{1f6ab}\x{1f95b}", 'w/o lactose', qr/lactose/i],
+    ["\x{1f437}", 'w/ pork', qr/contains pork/i],
+    ["\x{1f37a}", 'w/ alcohol', qr/contains alcohol/i],
+    ["\x{1f955}", 'vegetarian', qr/vegetarian/i],
+    ["\x{1f42e}", 'w/ beef', qr/contains beef/i],
+    ["\x{1f98c}", 'w/ wild', qr/contains (wild|venison)/i],
+    ["\x{2764}\x{fe0f}", 'favourite food', qr/favorite food/i],
+    ["\x{1f414}", 'w/ poultry', qr/contains poultry/i],
+    ["\x{1f332}", 'climate plate', qr/climate plate/i],
+    ["\x{1f195}", 'new meal', qr/new meal/i]
   ],
   de => [
-    ["\x{1f332}", 'Klima Teller', qr/klima teller/i],
+    ["\x{1f332}", 'Klimateller', qr/klima teller/i],
     ["\x{1f98c}", 'Mit Wild', qr/mit wild/i],
     ["\x{1f414}", "Mit Gefl\x{fc}gel", qr/mit gefl\x{fc}gel/i],
     ["\x{1f437}", 'Mit Schwein', qr/mit schwein/i],
