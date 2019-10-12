@@ -61,7 +61,6 @@ func main() {
 		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
 
 		session := sessions.GetOrNew(sessionMap, update.Message.Chat.ID)
-		_ = session
 
 		text := strings.TrimSpace(update.Message.Text)
 
@@ -85,7 +84,6 @@ func main() {
 
 		msg := tgbotapi.NewMessage(update.Message.Chat.ID, rep.Translation(session.Language))
 		msg.ParseMode = "Markdown"
-		// msg.ReplyToMessageID = update.Message.MessageID
 
 		_, err = bot.Send(msg)
 		if err != nil {
