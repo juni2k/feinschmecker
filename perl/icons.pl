@@ -5,6 +5,9 @@
 # from STDIN. Prints one line where each
 # icon description has been mapped to
 # an emoji.
+# When called with an argument, tries to
+# find the argument as a key in $icons
+# and prints its contents.
 
 use strict;
 use warnings;
@@ -62,13 +65,29 @@ binmode(STDIN,  ':utf8');
 binmode(STDOUT, ':utf8');
 binmode(STDERR, ':utf8');
 
-$/ = "\n";
-my @alts = <STDIN>;
+if (@ARGV) {
+  my $lang = $ARGV[0];
 
-chomp for @alts;
+  unless (exists $icons->{$lang}) {
+    die "Language $lang not defined, please choose: "
+        . join(', ', sort keys %{ $icons }) . "\n";
+  }
 
-my @mapped_icons =
-    map { find_icon(\@combined_icons, $_) }
-    @alts;
+  my @mappings = @{ $icons->{$lang} };
+  for my $mapping (@mappings) {
+    printf "%s: %s\n", $mapping->[1], $mapping->[0];
+  }
 
-print join ', ', @mapped_icons;
+  exit;
+} else {
+  local $/ = "\n";
+  my @alts = <STDIN>;
+
+  chomp for @alts;
+
+  my @mapped_icons =
+      map { find_icon(\@combined_icons, $_) }
+  @alts;
+
+  print join ', ', @mapped_icons;
+}
