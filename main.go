@@ -75,6 +75,7 @@ func main() {
 			"/start": commands.Start,
 			"/now": commands.Now,
 			"/next": commands.Next,
+			"/about": commands.About,
 			"/en": commands.En,
 			"/de": commands.De,
 		}

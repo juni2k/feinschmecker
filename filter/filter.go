@@ -1,6 +1,7 @@
 package filter
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"os/exec"
@@ -12,10 +13,19 @@ func Strip(s string) string {
 	return strings.TrimSpace(s)
 }
 
-func Perl(in string, scriptName string) string {
+func AddHeading(heading string, text string) string {
+	return strings.Join([]string{
+		fmt.Sprintf("*%s*", heading),
+		text,
+	}, "\n\n")
+}
+
+func Perl(in string, scriptName string, args ...string) string {
+	log.Printf("Perl in!")
+	defer log.Printf("Perl out!")
 	selfDir := filepath.Dir(os.Args[0])
 
-	cmd := exec.Command(scriptName)
+	cmd := exec.Command(scriptName, args...)
 	cmd.Dir = filepath.Join(selfDir, "perl")
 
 	stdin, err := cmd.StdinPipe()
