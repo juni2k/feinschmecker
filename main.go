@@ -14,7 +14,7 @@ import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
-type CommandMap map[string]func (session2 *sessions.Session) *reply.Reply
+type CommandMap map[string]func (*sessions.Session) *reply.Reply
 
 func main() {
 	fmt.Println("Started Feinschmecker!")
