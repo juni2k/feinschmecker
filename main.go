@@ -78,9 +78,11 @@ func main() {
 			reply = menu.Show(menu.Next, session.Language)
 		} else if strings.HasPrefix(text, "/en") {
 			session.Language = lang.En
+			session.Save()
 			reply = "Excellent!"
 		} else if strings.HasPrefix(text, "/de") {
 			session.Language = lang.De
+			session.Save()
 			reply = "Sehr gut!"
 		}
 
