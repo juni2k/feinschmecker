@@ -11,47 +11,48 @@ use warnings;
 use v5.18.0;
 
 my $icons = {
-  'en' => {
-    'Contains fish'    => "\x{1f41f}",
-    'Vegan'            => "\x{24cb}",
-    'Mensa vital'      => "\x{1f3cb}\x{fe0f}",
-    'Lactose-free'     => "\x{1f6ab}\x{1f95b}",
-    'Contains pork'    => "\x{1f437}",
-    'Contains alcohol' => "\x{1f37a}",
-    'Vegetarian'       => "\x{1f955}",
-    'Contains beef'    => "\x{1f42e}",
-    'Contains wild'    => "\x{1f98c}",
-    'Contains venison' => "\x{1f98c}",
-    'Favorite Food'    => "\x{2764}\x{fe0f}",
-    'Contains poultry' => "\x{1f414}",
-    'Climate plate'    => "\x{1f332}",
-    'New meal'         => "\x{1f195}"
-  },
-  'de' => {
-    'Klima Teller'      => "\x{1f332}",
-    'Mit Wild'          => "\x{1f98c}",
-    "Mit Gefl\x{fc}gel" => "\x{1f414}",
-    'Mit Schwein'       => "\x{1f437}",
-    'Laktosefrei'       => "\x{1f6ab}\x{1f95b}",
-    'Lieblingsessen'    => "\x{2764}\x{fe0f}",
-    'Vegetarisch'       => "\x{1f955}",
-    'Mit Rind'          => "\x{1f42e}",
-    'Mit Fisch'         => "\x{1f41f}",
-    'Vegan'             => "\x{24cb}",
-    'Mensa Vital'       => "\x{1f3cb}\x{fe0f}",
-    'Mit Alkohol'       => "\x{1f37a}",
-    'Neues Gericht'     => "\x{1f195}"
-  }
+  en => [
+    ["\x{1f41f}", 'Contains Fish', ['Contains fish']],
+    ["\x{24cb}", 'Vegan', ['Vegan']],
+    ["\x{1f3cb}\x{fe0f}", 'Mensa vital', ['Mensa vital']],
+    ["\x{1f6ab}\x{1f95b}", 'Lactose-free', ['Lactose-free']],
+    ["\x{1f437}", 'Contains pork', ['Contains pork']],
+    ["\x{1f37a}", 'Contains alcohol', ['Contains alcohol']],
+    ["\x{1f955}", 'Vegetarian', ['Vegetarian']],
+    ["\x{1f42e}", 'Contains beef', ['Contains beef']],
+    ["\x{1f98c}", 'Contains wild', ['Contains wild', 'Contains venison']],
+    ["\x{2764}\x{fe0f}", 'Favorite Food', ['Favorite Food']],
+    ["\x{1f414}", 'Contains poultry', ['Contains poultry']],
+    ["\x{1f332}", 'Climate plate', ['Climate plate']],
+    ["\x{1f195}", 'New meal', ['New meal']]
+  ],
+  de => [
+    ["\x{1f332}", 'Klima Teller', ['Klima Teller']],
+    ["\x{1f98c}", 'Mit Wild', ['Mit Wild']],
+    ["\x{1f414}", "Mit Gefl\x{fc}gel", ["Mit Gefl\x{fc}gel"]],
+    ["\x{1f437}", 'Mit Schwein', ['Mit Schwein']],
+    ["\x{1f6ab}\x{1f95b}", 'Laktosefrei', ['Laktosefrei']],
+    ["\x{2764}\x{fe0f}", 'Lieblingsessen', ['Lieblingsessen']],
+    ["\x{1f955}", 'Vegetarisch', ['Vegetarisch']],
+    ["\x{1f42e}", 'Mit Rind', ['Mit Rind']],
+    ["\x{1f41f}", 'Mit Fisch', ['Mit Fisch']],
+    ["\x{24cb}", 'Vegan', ['Vegan']],
+    ["\x{1f3cb}\x{fe0f}", 'Mensa Vital', ['Mensa Vital']],
+    ["\x{1f37a}", 'Mit Alkohol', ['Mit Alkohol']],
+    ["\x{1f195}", 'Neues Gericht', ['Neues Gericht']]
+  ]
 };
 
-my %combined_icons = (%{ $icons->{en} }, %{ $icons->{de} });
+my @combined_icons = (@{ $icons->{en} }, @{ $icons->{de} });
 
 sub find_icon {
-  my ($combined, $alt) = @_;
+  my ($combined, $desc) = @_;
 
-  for my $desc (keys %{ $combined }) {
-    if ($alt =~ /$desc/i) {
-      return $combined->{$desc};
+  for my $mapping (@{ $combined }) {
+    for my $match (@{ $mapping->[2] }) {
+      if ($desc =~ /$match/i) {
+        return $mapping->[0];
+      }
     }
   }
 
@@ -68,7 +69,7 @@ my @alts = <STDIN>;
 chomp for @alts;
 
 my @mapped_icons =
-    map { find_icon(\%combined_icons, $_) }
+    map { find_icon(\@combined_icons, $_) }
     @alts;
 
 print join ', ', @mapped_icons;
