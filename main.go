@@ -3,8 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/nanont/feinschmecker/sessions"
 	"github.com/nanont/feinschmecker/lang"
+	"github.com/nanont/feinschmecker/sessions"
 	"io/ioutil"
 	"log"
 	"os"
@@ -24,7 +24,7 @@ func main() {
 	}
 
 	type Config struct {
-		Workdir string `json:"workdir"`
+		Workdir  string `json:"workdir"`
 		Telegram struct {
 			Token string `json:"token"`
 		} `json:"telegram"`
