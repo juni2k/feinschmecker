@@ -12,34 +12,34 @@ use v5.18.0;
 
 my $icons = {
   en => [
-    ["\x{1f41f}", 'Contains Fish', ['Contains fish']],
-    ["\x{24cb}", 'Vegan', ['Vegan']],
-    ["\x{1f3cb}\x{fe0f}", 'Mensa vital', ['Mensa vital']],
-    ["\x{1f6ab}\x{1f95b}", 'Lactose-free', ['Lactose-free']],
-    ["\x{1f437}", 'Contains pork', ['Contains pork']],
-    ["\x{1f37a}", 'Contains alcohol', ['Contains alcohol']],
-    ["\x{1f955}", 'Vegetarian', ['Vegetarian']],
-    ["\x{1f42e}", 'Contains beef', ['Contains beef']],
-    ["\x{1f98c}", 'Contains wild', ['Contains wild', 'Contains venison']],
-    ["\x{2764}\x{fe0f}", 'Favorite Food', ['Favorite Food']],
-    ["\x{1f414}", 'Contains poultry', ['Contains poultry']],
-    ["\x{1f332}", 'Climate plate', ['Climate plate']],
-    ["\x{1f195}", 'New meal', ['New meal']]
+    ["\x{1f41f}", 'Contains Fish', qr/contains fish/i],
+    ["\x{24cb}", 'Vegan', qr/vegan/i],
+    ["\x{1f3cb}\x{fe0f}", 'Mensa vital', qr/mensa vital/i],
+    ["\x{1f6ab}\x{1f95b}", 'Lactose-free', qr/lactose/i],
+    ["\x{1f437}", 'Contains pork', qr/contains pork/i],
+    ["\x{1f37a}", 'Contains alcohol', qr/contains alcohol/i],
+    ["\x{1f955}", 'Vegetarian', qr/vegetarian/i],
+    ["\x{1f42e}", 'Contains beef', qr/contains beef/i],
+    ["\x{1f98c}", 'Contains wild', qr/contains (wild|venison)/i],
+    ["\x{2764}\x{fe0f}", 'Favorite Food', qr/favorite food/i],
+    ["\x{1f414}", 'Contains poultry', qr/contains poultry/i],
+    ["\x{1f332}", 'Climate plate', qr/climate plate/i],
+    ["\x{1f195}", 'New meal', qr/new meal/i]
   ],
   de => [
-    ["\x{1f332}", 'Klima Teller', ['Klima Teller']],
-    ["\x{1f98c}", 'Mit Wild', ['Mit Wild']],
-    ["\x{1f414}", "Mit Gefl\x{fc}gel", ["Mit Gefl\x{fc}gel"]],
-    ["\x{1f437}", 'Mit Schwein', ['Mit Schwein']],
-    ["\x{1f6ab}\x{1f95b}", 'Laktosefrei', ['Laktosefrei']],
-    ["\x{2764}\x{fe0f}", 'Lieblingsessen', ['Lieblingsessen']],
-    ["\x{1f955}", 'Vegetarisch', ['Vegetarisch']],
-    ["\x{1f42e}", 'Mit Rind', ['Mit Rind']],
-    ["\x{1f41f}", 'Mit Fisch', ['Mit Fisch']],
-    ["\x{24cb}", 'Vegan', ['Vegan']],
-    ["\x{1f3cb}\x{fe0f}", 'Mensa Vital', ['Mensa Vital']],
-    ["\x{1f37a}", 'Mit Alkohol', ['Mit Alkohol']],
-    ["\x{1f195}", 'Neues Gericht', ['Neues Gericht']]
+    ["\x{1f332}", 'Klima Teller', qr/klima teller/i],
+    ["\x{1f98c}", 'Mit Wild', qr/mit wild/i],
+    ["\x{1f414}", "Mit Gefl\x{fc}gel", qr/mit gefl\x{fc}gel/i],
+    ["\x{1f437}", 'Mit Schwein', qr/mit schwein/i],
+    ["\x{1f6ab}\x{1f95b}", 'Laktosefrei', qr/laktose/i],
+    ["\x{2764}\x{fe0f}", 'Lieblingsessen', qr/lieblingsessen/i],
+    ["\x{1f955}", 'Vegetarisch', qr/vegetarisch/i],
+    ["\x{1f42e}", 'Mit Rind', qr/mit rind/i],
+    ["\x{1f41f}", 'Mit Fisch', qr/mit fisch/i],
+    ["\x{24cb}", 'Vegan', qr/vegan/i],
+    ["\x{1f3cb}\x{fe0f}", 'Mensa Vital', qr/mensa vital/i],
+    ["\x{1f37a}", 'Mit Alkohol', qr/mit alkohol/i],
+    ["\x{1f195}", 'Neues Gericht', qr/neues gericht/i]
   ]
 };
 
@@ -49,10 +49,9 @@ sub find_icon {
   my ($combined, $desc) = @_;
 
   for my $mapping (@{ $combined }) {
-    for my $match (@{ $mapping->[2] }) {
-      if ($desc =~ /$match/i) {
-        return $mapping->[0];
-      }
+    my $match = $mapping->[2];
+    if ($desc =~ $match) {
+      return $mapping->[0];
     }
   }
 
