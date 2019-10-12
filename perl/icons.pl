@@ -55,7 +55,7 @@ sub find_icon {
     }
   }
 
-  return "[no icon]";
+  return '(no icon)';
 }
 
 binmode(STDIN,  ':utf8');
