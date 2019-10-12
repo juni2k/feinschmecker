@@ -92,6 +92,9 @@ func main() {
 		msg.ParseMode = "Markdown"
 		// msg.ReplyToMessageID = update.Message.MessageID
 
-		bot.Send(msg)
+		_, err = bot.Send(msg)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 }

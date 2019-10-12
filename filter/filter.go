@@ -27,7 +27,10 @@ func Perl(in string, scriptName string) string {
 	if err != nil {
 		log.Fatal(err)
 	}
-	stdin.Close()
+	err = stdin.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	out, err := cmd.CombinedOutput()
 	if err != nil {
