@@ -11,7 +11,7 @@ import (
 )
 
 type Session struct {
-	ID int64
+	ID       int64
 	Language lang.Language
 }
 
