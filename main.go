@@ -3,8 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/nanont/feinschmecker/lang"
-	"github.com/nanont/feinschmecker/reply"
+	"github.com/nanont/feinschmecker/commands"
 	"github.com/nanont/feinschmecker/sessions"
 	"io/ioutil"
 	"log"
@@ -12,8 +11,6 @@ import (
 	"strings"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
-
-	"github.com/nanont/feinschmecker/menu"
 )
 
 func main() {
@@ -72,39 +69,19 @@ func main() {
 		text := update.Message.Text
 
 		// This is the default reply
-		rep := &reply.Reply{TextMap: map[lang.Language]string{
-			lang.En: "I was unable to understand you :/",
-			lang.De: "Ich konnte dich leider nicht verstehen :/",
-		}}
+		rep := commands.Default(session)
 
 		// TODO: re-work this into some kind of map / ...
 		if strings.HasPrefix(text, "/start") {
-			rep = &reply.Reply{TextMap: map[lang.Language]string{
-				lang.En: "This is the /start stub.",
-				lang.De: "Dies ist ein Platzhalter für /start.",
-			}}
+			rep = commands.Start(session)
 		} else if strings.HasPrefix(text, "/now") {
-			rep = &reply.Reply{TextMap: map[lang.Language]string{
-				session.Language: menu.Show(menu.Now, session.Language),
-			}}
+			rep = commands.Now(session)
 		} else if strings.HasPrefix(text, "/next") {
-			rep = &reply.Reply{TextMap: map[lang.Language]string{
-				session.Language: menu.Show(menu.Next, session.Language),
-			}}
+			rep = commands.Next(session)
 		} else if strings.HasPrefix(text, "/en") {
-			session.Language = lang.En
-			session.Save()
-
-			rep = &reply.Reply{TextMap: map[lang.Language]string{
-				session.Language: "Excellent!",
-			}}
+			rep = commands.En(session)
 		} else if strings.HasPrefix(text, "/de") {
-			session.Language = lang.De
-			session.Save()
-
-			rep = &reply.Reply{TextMap: map[lang.Language]string{
-				session.Language: "Sehr gut!",
-			}}
+			rep = commands.De(session)
 		}
 
 		msg := tgbotapi.NewMessage(update.Message.Chat.ID, rep.Translation(session.Language))
