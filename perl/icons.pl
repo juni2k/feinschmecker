@@ -74,7 +74,7 @@ if (@ARGV) {
   }
 
   my @mappings = @{ $icons->{$lang} };
-  for my $mapping (@mappings) {
+  for my $mapping (sort { $a->[1] cmp $b->[1] } @mappings) {
     printf "%s: %s\n", $mapping->[1], $mapping->[0];
   }
 
