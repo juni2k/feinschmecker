@@ -6,14 +6,14 @@
 # icon description has been mapped to
 # an emoji.
 # When called with an argument, tries to
-# find the argument as a key in $icons
-# and prints its contents.
+# find the argument as a key in $ICONS
+# and print its contents.
 
 use strict;
 use warnings;
 use v5.18.0;
 
-my $icons = {
+my $ICONS = {
   en => [
     ["\x{1f41f}", 'w/ ghoti', qr/contains fish/i],
     ["\x{24cb}", 'vegan', qr/vegan/i],
@@ -46,13 +46,13 @@ my $icons = {
   ]
 };
 
-my @combined_icons = (@{ $icons->{en} }, @{ $icons->{de} });
-
 sub find_icon {
-  my ($combined, $desc) = @_;
 
-  for my $mapping (@{ $combined }) {
+  my $desc = shift;
+
+  for my $mapping (@{ $ICONS->{en} }, @{ $ICONS->{de} }) {
     my $match = $mapping->[2];
+
     if ($desc =~ $match) {
       return $mapping->[0];
     }
@@ -61,33 +61,40 @@ sub find_icon {
   return '(no icon)';
 }
 
-binmode(STDIN,  ':utf8');
-binmode(STDOUT, ':utf8');
-binmode(STDERR, ':utf8');
+sub list_icons {
 
-if (@ARGV) {
-  my $lang = $ARGV[0];
+  my $lang = shift;
 
-  unless (exists $icons->{$lang}) {
+  unless (exists $ICONS->{$lang}) {
     die "Language $lang not defined, please choose: "
-        . join(', ', sort keys %{ $icons }) . "\n";
+        . join(', ', sort keys %{ $ICONS }) . "\n";
   }
 
-  my @mappings = @{ $icons->{$lang} };
+  my @mappings = @{ $ICONS->{$lang} };
   for my $mapping (sort { $a->[1] cmp $b->[1] } @mappings) {
     printf "%s: %s\n", $mapping->[1], $mapping->[0];
   }
+}
 
-  exit;
-} else {
+sub map_icons {
   local $/ = "\n";
-  my @alts = <STDIN>;
 
+  my @alts = <STDIN>;
   chomp for @alts;
 
-  my @mapped_icons =
-      map { find_icon(\@combined_icons, $_) }
-  @alts;
-
-  print join ', ', @mapped_icons;
+  print join q(, ), map { find_icon($_) } @alts;
 }
+
+sub main {
+  binmode(STDIN,  ':utf8');
+  binmode(STDOUT, ':utf8');
+  binmode(STDERR, ':utf8');
+
+  if (@ARGV) {
+    list_icons($ARGV[0]);
+  } else {
+    map_icons;
+  }
+}
+
+main;
