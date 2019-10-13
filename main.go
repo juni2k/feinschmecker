@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"github.com/nanont/feinschmecker/commands"
 	"github.com/nanont/feinschmecker/config"
@@ -20,7 +21,10 @@ type CommandMap map[string]func (*config.Config, *sessions.Session) *reply.Reply
 func main() {
 	fmt.Println("Started Feinschmecker!")
 
-	configRaw, err := ioutil.ReadFile("./config.json")
+	configPath := flag.String("c", "./config.json", "Path to configuration file")
+	flag.Parse()
+
+	configRaw, err := ioutil.ReadFile(*configPath)
 	if err != nil {
 		log.Fatal(err)
 	}
