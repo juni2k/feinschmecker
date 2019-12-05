@@ -5,7 +5,6 @@ import (
 	"github.com/nanont/feinschmecker/bindata"
 	"github.com/nanont/feinschmecker/config"
 	"github.com/nanont/feinschmecker/lang"
-	"github.com/nanont/feinschmecker/reply"
 	"github.com/nanont/feinschmecker/sessions"
 	"log"
 	"text/template"
@@ -15,14 +14,14 @@ import (
 // that don't fetch resources etc. and
 // always return the same text.
 
-func Default(conf *config.Config, session *sessions.Session) *reply.Reply {
-	return &reply.Reply{TextMap: map[lang.Language]string{
+func Default(conf *config.Config, session *sessions.Session) *TextMap {
+	return &TextMap{
 		lang.En: "I was unable to understand you :/",
 		lang.De: "Ich konnte dich leider nicht verstehen :/",
-	}}
+	}
 }
 
-func Start(conf *config.Config, session *sessions.Session) *reply.Reply {
+func Start(conf *config.Config, session *sessions.Session) *TextMap {
 	var tmplPath string
 	if session.Language == lang.En {
 		tmplPath = "templates/start.en.txt"
@@ -46,7 +45,7 @@ func Start(conf *config.Config, session *sessions.Session) *reply.Reply {
 		log.Fatal(err)
 	}
 
-	return &reply.Reply{TextMap: map[lang.Language]string{
+	return &TextMap{
 		session.Language: buf.String(),
-	}}
+	}
 }

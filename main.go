@@ -82,10 +82,10 @@ func main() {
 		var rep *reply.Reply
 		commandFunc, ok := commandMap[text]
 		if ok {
-			rep = commandFunc(&conf, session)
+			rep = &reply.Reply{commandFunc(&conf, session)}
 		} else {
 			// This is the default reply
-			rep = commands.Default(&conf, session)
+			rep = &reply.Reply{commands.Default(&conf, session)}
 		}
 
 		msg := tgbotapi.NewMessage(update.Message.Chat.ID, rep.Translation(session.Language))
