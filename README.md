@@ -15,7 +15,15 @@ annoying input are written in Perl.
 
 ## Building, Deployment, etc.
 
-(To be filled out.)
+[I have written a guide to build and install things on FreeBSD, and I
+think that's sufficient due to the fairly easy build process.][doc]
+
+[doc]: https://github.com/nanont/feinschmecker/blob/master/contrib/INSTALL-FreeBSD
+
+### Runtime requirements
+
+- The actual binary
+- Perl 5.18 or newer (already present on macOS and modern *nix systems)
 
 ## License
 
