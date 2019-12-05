@@ -12,6 +12,8 @@ type Entry struct {
 
 type Cache map[string]*Entry
 
+const MaxEntryAge = 30 * time.Minute
+
 var instance = make(Cache)
 
 func GetOrSet(key string, retrieve func() string) string {
@@ -30,5 +32,24 @@ func GetOrSet(key string, retrieve func() string) string {
 		}
 		instance[key] = entry
 		return entry.Text
+	}
+}
+
+func deleteOldEntries() {
+	log.Println("Deleting old entries...")
+
+	for key, entry := range instance {
+		if time.Since(entry.Time) > MaxEntryAge {
+			log.Printf("Key \"%s\" too old, deleting", key)
+			delete(instance, key)
+		}
+	}
+}
+
+func DeletionLoop() {
+	for {
+		deleteOldEntries()
+
+		time.Sleep(5 * time.Second)
 	}
 }
