@@ -6,4 +6,5 @@ import (
 	"github.com/nanont/feinschmecker/sessions"
 )
 
-type Map map[string]func(*config.Config, *sessions.Session) *reply.Reply
+type Func func(*config.Config, *sessions.Session) *reply.Reply
+type Map map[string]Func
