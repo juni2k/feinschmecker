@@ -53,6 +53,8 @@ func main() {
 
 	sessionMap := sessions.Init(conf.Workdir)
 
+	go cache.DeletionLoop()
+
 	bot, err := tgbotapi.NewBotAPI(conf.Telegram.Token)
 	if err != nil {
 		log.Panic(err)
