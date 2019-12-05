@@ -4,19 +4,20 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/nanont/feinschmecker/commands"
-	"github.com/nanont/feinschmecker/config"
-	"github.com/nanont/feinschmecker/reply"
-	"github.com/nanont/feinschmecker/sessions"
 	"io/ioutil"
 	"log"
 	"os"
 	"strings"
 
+	"github.com/nanont/feinschmecker/commands"
+	"github.com/nanont/feinschmecker/config"
+	"github.com/nanont/feinschmecker/reply"
+	"github.com/nanont/feinschmecker/sessions"
+
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
-type CommandMap map[string]func (*config.Config, *sessions.Session) *reply.Reply
+type CommandMap map[string]func(*config.Config, *sessions.Session) *reply.Reply
 
 func main() {
 	fmt.Println("Started Feinschmecker!")
@@ -68,13 +69,16 @@ func main() {
 
 		text := strings.TrimSpace(update.Message.Text)
 
+		// Telegram does not remove mentions its own
+		text = strings.Replace(text, "@"+bot.Self.UserName, "", -1)
+
 		commandMap := CommandMap{
 			"/start": commands.Start,
-			"/now": commands.Now,
-			"/next": commands.Next,
+			"/now":   commands.Now,
+			"/next":  commands.Next,
 			"/about": commands.About,
-			"/en": commands.En,
-			"/de": commands.De,
+			"/en":    commands.En,
+			"/de":    commands.De,
 		}
 
 		var rep *reply.Reply
