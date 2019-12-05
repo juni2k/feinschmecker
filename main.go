@@ -17,6 +17,15 @@ import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
+var commandMap = commands.Map{
+	"/start": commands.Start,
+	"/now":   commands.Now,
+	"/next":  commands.Next,
+	"/about": commands.About,
+	"/en":    commands.En,
+	"/de":    commands.De,
+}
+
 func main() {
 	fmt.Println("Started Feinschmecker!")
 
@@ -69,15 +78,6 @@ func main() {
 
 		// Telegram does not remove mentions its own
 		text = strings.Replace(text, "@"+bot.Self.UserName, "", -1)
-
-		commandMap := commands.Map{
-			"/start": commands.Start,
-			"/now":   commands.Now,
-			"/next":  commands.Next,
-			"/about": commands.About,
-			"/en":    commands.En,
-			"/de":    commands.De,
-		}
 
 		var rep *reply.Reply
 		commandFunc, ok := commandMap[text]
