@@ -1,0 +1,24 @@
+# Create a group
+$ sudo pw group add feinschmecker
+
+# Create a new system account
+$ sudo pw user add feinschmecker -c 'Feinschmecker Telegram Bot' -s /usr/sbin/nologin -g feinschmecker -d /var/lib/feinschmecker
+
+# Create a home directory
+$ sudo mkdir /var/lib/feinschmecker
+$ sudo chown -R feinschmecker:feinschmecker /var/lib/feinschmecker
+
+# [locally] Build for FreeBSD
+$ GOOS=freebsd make
+
+# [locally] Upload build
+$ rsync -czvaP build 'me@server:/usr/home/me/'
+
+# Move build
+$ sudo mv build/ /var/lib/feinschmecker/
+$ sudo chown -R feinschmecker:feinschmecker /var/lib/feinschmecker
+
+# Find out if it's working (after creating config.json)
+$ sudo -u feinschmecker /var/lib/feinschmecker/build/feinschmecker -c /var/lib/feinschmecker/config.json
+
+# TODO: ... install rc.d script
