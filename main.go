@@ -9,8 +9,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/nanont/feinschmecker/cache"
-
 	"github.com/nanont/feinschmecker/commands"
 	"github.com/nanont/feinschmecker/config"
 	"github.com/nanont/feinschmecker/reply"
@@ -53,8 +51,6 @@ func main() {
 
 	sessionMap := sessions.Init(conf.Workdir)
 
-	go cache.DeletionLoop()
-
 	bot, err := tgbotapi.NewBotAPI(conf.Telegram.Token)
 	if err != nil {
 		log.Panic(err)
@@ -83,21 +79,16 @@ func main() {
 		// Telegram does not remove mentions its own
 		text = strings.Replace(text, "@"+bot.Self.UserName, "", -1)
 
-		msg := tgbotapi.NewMessage(
-			update.Message.Chat.ID,
-			cache.GetOrSet(fmt.Sprintf("%d %s", session.Language, text), func() string {
-				var rep *reply.Reply
+		var rep *reply.Reply
+		commandFunc, ok := commandMap[text]
+		if ok {
+			rep = &reply.Reply{commandFunc(&conf, session)}
+		} else {
+			// This is the default reply
+			rep = &reply.Reply{commands.Default(&conf, session)}
+		}
 
-				commandFunc, ok := commandMap[text]
-				if ok {
-					rep = &reply.Reply{commandFunc(&conf, session)}
-				} else {
-					// This is the default reply
-					rep = &reply.Reply{commands.Default(&conf, session)}
-				}
-
-				return rep.Translation(session.Language)
-			}))
+		msg := tgbotapi.NewMessage(update.Message.Chat.ID, rep.Translation(session.Language))
 		msg.ParseMode = "Markdown"
 
 		_, err = bot.Send(msg)
