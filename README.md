@@ -5,8 +5,8 @@ Find something inexpensive and unhealthy to eat at TU Hamburg.
 ## Motivation
 
 Feinschmecker is a semi-ambitious rewrite of [tuhh-mensa-bot][tmb].  It
-is supposed to become more robust and more performant than its
-predecessor while also being easier to maintain and deploy.
+is more robust and more performant than its predecessor while also being
+easier to maintain and deploy.
 
 Most of it is written in Go. Minor parts dealing with text munging and
 annoying input are written in Perl.
