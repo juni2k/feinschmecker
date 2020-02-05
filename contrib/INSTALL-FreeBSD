@@ -2,11 +2,11 @@
 $ sudo pw group add feinschmecker
 
 # Create a new system account
-$ sudo pw user add feinschmecker -c 'Feinschmecker Telegram Bot' -s /usr/sbin/nologin -g feinschmecker -d /var/lib/feinschmecker
+$ sudo pw user add feinschmecker -c 'Feinschmecker Telegram Bot' -s /usr/sbin/nologin -g feinschmecker -d /var/db/feinschmecker
 
 # Create a home directory
-$ sudo mkdir /var/lib/feinschmecker
-$ sudo chown -R feinschmecker:feinschmecker /var/lib/feinschmecker
+$ sudo mkdir /var/db/feinschmecker
+$ sudo chown -R feinschmecker:feinschmecker /var/db/feinschmecker
 
 # [locally] Build for FreeBSD
 $ GOOS=freebsd make
@@ -15,10 +15,10 @@ $ GOOS=freebsd make
 $ rsync -czvaP build 'me@server:/usr/home/me/'
 
 # Move build
-$ sudo mv build/ /var/lib/feinschmecker/
-$ sudo chown -R feinschmecker:feinschmecker /var/lib/feinschmecker
+$ sudo mv build/ /var/db/feinschmecker/
+$ sudo chown -R feinschmecker:feinschmecker /var/db/feinschmecker
 
 # Find out if it's working (after creating config.json)
-$ sudo -u feinschmecker /var/lib/feinschmecker/build/feinschmecker -c /var/lib/feinschmecker/config.json
+$ sudo -u feinschmecker /var/db/feinschmecker/build/feinschmecker -c /var/db/feinschmecker/config.json
 
 # TODO: ... install rc.d script
