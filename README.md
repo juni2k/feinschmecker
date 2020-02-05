@@ -18,7 +18,7 @@ annoying input are written in Perl.
 [I have written a guide to build and install things on FreeBSD, and I
 think that's sufficient due to the fairly easy build process.][doc]
 
-[doc]: https://github.com/nanont/feinschmecker/blob/master/contrib/INSTALL-FreeBSD
+[doc]: https://github.com/nanont/feinschmecker/blob/master/contrib/INSTALL-FreeBSD.md
 
 ### Runtime requirements
 
