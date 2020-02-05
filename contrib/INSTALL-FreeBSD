@@ -9,6 +9,9 @@ $ sudo mkdir /var/db/feinschmecker
 $ sudo chown -R feinschmecker:feinschmecker /var/db/feinschmecker
 
 # [locally] Build for FreeBSD
+$ go get -v -u github.com/go-bindata/go-bindata/...
+$ go get -v -u github.com/PuerkitoBio/goquery
+$ go get -v -u github.com/go-telegram-bot-api/telegram-bot-api
 $ GOOS=freebsd make
 
 # [locally] Upload build
