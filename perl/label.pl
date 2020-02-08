@@ -16,6 +16,9 @@ binmode(STDERR, ':utf8');
 $/ = undef;
 my $label = <STDIN>;
 
+# Remove '#allinONEPOT.....' bullshit
+$label =~ s/#allinONEPOT\.*,?//g;
+
 # Remove leading / trailing whitespace
 $label =~ s/(^\s*|\s*$)//g;
 
