@@ -28,6 +28,9 @@ $label =~ s/\s*\(.*?\)\s*//g;
 # Fix wrong spacing around commas
 $label =~ s/\s*?,\s*/, /g;
 
+# Fix wrong spacing around slashes
+$label =~ s@\s*/\s*@ / @g;
+
 # Replace n-whitespace with a single space
 $label =~ s/\s+/ /g;
 
