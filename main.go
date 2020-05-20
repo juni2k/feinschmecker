@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"os"
 	"strings"
 
@@ -24,6 +25,7 @@ var commandMap = commands.Map{
 	"/about": commands.About,
 	"/en":    commands.En,
 	"/de":    commands.De,
+	"/apply": commands.Apply,
 }
 
 func main() {
@@ -94,6 +96,26 @@ func main() {
 		_, err = bot.Send(msg)
 		if err != nil {
 			log.Fatal(err)
+		}
+
+		// Hack: beg for adoption once in a while
+		if (text == "/now" || text == "/next") {
+			n := rand.Intn(3)
+			log.Println(n)
+			if n <= 1 {
+				continue
+			}
+
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID,
+				`... and now for something personal:
+
+This bot is looking for a new (preferably loving) owner. Check /apply for details.
+
+Cheers!`)
+			_, err = bot.Send(msg)
+			if err != nil {
+				log.Print(err)
+			}
 		}
 	}
 }
