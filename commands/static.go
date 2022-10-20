@@ -2,12 +2,13 @@ package commands
 
 import (
 	"bytes"
-	"github.com/nanont/feinschmecker/bindata"
-	"github.com/nanont/feinschmecker/config"
-	"github.com/nanont/feinschmecker/lang"
-	"github.com/nanont/feinschmecker/sessions"
 	"log"
 	"text/template"
+
+	"github.com/juni2k/feinschmecker/bindata"
+	"github.com/juni2k/feinschmecker/config"
+	"github.com/juni2k/feinschmecker/lang"
+	"github.com/juni2k/feinschmecker/sessions"
 )
 
 // static.go contains static commands

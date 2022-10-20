@@ -2,17 +2,17 @@ package menu
 
 import (
 	"bytes"
-	"github.com/nanont/feinschmecker/bindata"
-	"github.com/nanont/feinschmecker/lang"
 	"io"
 	"log"
 	"net/http"
 	"strings"
 	"text/template"
 
-	"github.com/PuerkitoBio/goquery"
+	"github.com/juni2k/feinschmecker/bindata"
+	"github.com/juni2k/feinschmecker/filter"
+	"github.com/juni2k/feinschmecker/lang"
 
-	"github.com/nanont/feinschmecker/filter"
+	"github.com/PuerkitoBio/goquery"
 )
 
 type Request int
@@ -137,12 +137,14 @@ func parse(url string, siteBody io.ReadCloser) *Menu {
 						log.Fatalf("attr %s doesn't exist", attr)
 						return ""
 					}
-				})
+				},
+			)
 			d.Icons = strings.Join(icons, "\n")
 			d.Icons = filter.Perl(d.Icons, "./icons.pl")
 
 			m.Dishes = append(m.Dishes, d)
-		})
+		},
+	)
 
 	return m
 }

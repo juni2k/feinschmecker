@@ -1,9 +1,9 @@
 package commands
 
 import (
-	"github.com/nanont/feinschmecker/config"
-	"github.com/nanont/feinschmecker/lang"
-	"github.com/nanont/feinschmecker/sessions"
+	"github.com/juni2k/feinschmecker/config"
+	"github.com/juni2k/feinschmecker/lang"
+	"github.com/juni2k/feinschmecker/sessions"
 )
 
 type Func func(*config.Config, *sessions.Session) *TextMap

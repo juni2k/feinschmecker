@@ -9,10 +9,10 @@ import (
 	"os"
 	"strings"
 
-	"github.com/nanont/feinschmecker/commands"
-	"github.com/nanont/feinschmecker/config"
-	"github.com/nanont/feinschmecker/reply"
-	"github.com/nanont/feinschmecker/sessions"
+	"github.com/juni2k/feinschmecker/commands"
+	"github.com/juni2k/feinschmecker/config"
+	"github.com/juni2k/feinschmecker/reply"
+	"github.com/juni2k/feinschmecker/sessions"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )

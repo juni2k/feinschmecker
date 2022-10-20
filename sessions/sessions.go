@@ -3,11 +3,12 @@ package sessions
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/nanont/feinschmecker/lang"
 	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
+
+	"github.com/juni2k/feinschmecker/lang"
 )
 
 type Session struct {

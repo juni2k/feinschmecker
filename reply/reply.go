@@ -1,9 +1,10 @@
 package reply
 
 import (
-	"github.com/nanont/feinschmecker/commands"
-	"github.com/nanont/feinschmecker/lang"
 	"log"
+
+	"github.com/juni2k/feinschmecker/commands"
+	"github.com/juni2k/feinschmecker/lang"
 )
 
 type Reply struct {
@@ -18,5 +19,3 @@ func (r *Reply) Translation(language lang.Language) string {
 
 	return text
 }
-
-

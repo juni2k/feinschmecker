@@ -1,9 +1,9 @@
 package commands
 
 import (
-	"github.com/nanont/feinschmecker/config"
-	"github.com/nanont/feinschmecker/menu"
-	"github.com/nanont/feinschmecker/sessions"
+	"github.com/juni2k/feinschmecker/config"
+	"github.com/juni2k/feinschmecker/menu"
+	"github.com/juni2k/feinschmecker/sessions"
 )
 
 // menu.go contains commands for
