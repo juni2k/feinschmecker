@@ -15,34 +15,34 @@ use v5.18.0;
 
 my $ICONS = {
   en => [
-    ["\x{1f41f}", 'w/ ghoti', qr/contains fish/i],
+    ["\x{1f41f}", 'w/ ghoti', qr/(contains )?fish/i],
     ["\x{24cb}", 'vegan', qr/vegan/i],
     ["\x{1f3cb}\x{fe0f}", 'healthy', qr/mensa vital/i],
     ["\x{1f6ab}\x{1f95b}", 'w/o lactose', qr/lactose/i],
-    ["\x{1f437}", 'w/ pork', qr/contains pork/i],
-    ["\x{1f37a}", 'w/ alcohol', qr/contains alcohol/i],
+    ["\x{1f437}", 'w/ pork', qr/(contains )?pork/i],
+    ["\x{1f37a}", 'w/ alcohol', qr/(contains )?alcohol/i],
     ["\x{1f955}", 'vegetarian', qr/vegetarian/i],
-    ["\x{1f42e}", 'w/ beef', qr/contains beef/i],
-    ["\x{1f98c}", 'w/ wild', qr/contains (wild|venison)/i],
+    ["\x{1f404}", 'w/ beef', qr/(contains )?beef/i],
+    ["\x{1f98c}", 'w/ wild', qr/(contains )?(wild|venison)/i],
     ["\x{2764}\x{fe0f}", 'favourite food', qr/favorite food/i],
-    ["\x{1f414}", 'w/ poultry', qr/contains poultry/i],
-    ["\x{1f332}", 'climate plate', qr/climate plate/i],
-    ["\x{1f195}", 'new meal', qr/new meal/i]
+    ["\x{1f414}", 'w/ poultry', qr/(contains )?poultry/i],
+    ["\x{1f332}", 'climate dish', qr/climate dish/i],
+    ["\x{1f195}", 'new dish', qr/new dish/i]
   ],
   de => [
-    ["\x{1f332}", 'Klimateller', qr/klima teller/i],
-    ["\x{1f98c}", 'Mit Wild', qr/mit wild/i],
-    ["\x{1f414}", "Mit Gefl\x{fc}gel", qr/mit gefl\x{fc}gel/i],
-    ["\x{1f437}", 'Mit Schwein', qr/mit schwein/i],
+    ["\x{1f332}", 'Klimateller', qr/klima ?teller/i],
+    ["\x{1f98c}", 'Mit Wild', qr/(mit )?wild/i],
+    ["\x{1f414}", "Mit Gefl\x{fc}gel", qr/(mit )?gefl\x{fc}gel/i],
+    ["\x{1f437}", 'Mit Schwein', qr/(mit )?schwein/i],
     ["\x{1f6ab}\x{1f95b}", 'Laktosefrei', qr/laktose/i],
     ["\x{2764}\x{fe0f}", 'Lieblingsessen', qr/lieblingsessen/i],
     ["\x{1f955}", 'Vegetarisch', qr/vegetarisch/i],
-    ["\x{1f42e}", 'Mit Rind', qr/mit rind/i],
-    ["\x{1f41f}", 'Mit Fisch', qr/mit fisch/i],
+    ["\x{1f404}", 'Mit Rind', qr/(mit )?rind/i],
+    ["\x{1f41f}", 'Mit Fisch', qr/(mit )?fisch/i],
     ["\x{24cb}", 'Vegan', qr/vegan/i],
     ["\x{1f3cb}\x{fe0f}", 'Mensa Vital', qr/mensa vital/i],
-    ["\x{1f37a}", 'Mit Alkohol', qr/mit alkohol/i],
-    ["\x{1f195}", 'Neues Gericht', qr/neues gericht/i]
+    ["\x{1f37a}", 'Mit Alkohol', qr/(mit )?alkohol/i],
+    ["\x{1f195}", 'Neues Gericht', qr/neu(es gericht)?/i]
   ]
 };
 

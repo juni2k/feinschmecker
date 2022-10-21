@@ -2,9 +2,11 @@ package menu
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
+	"regexp"
 	"strings"
 	"text/template"
 
@@ -31,9 +33,9 @@ type Dish struct {
 }
 
 type UrlParams struct {
-	Language string
-	Year     uint
-	Day      uint8
+	Location     int
+	LanguagePath string
+	Day          string
 }
 
 const (
@@ -42,7 +44,8 @@ const (
 )
 
 const (
-	MenuUrlTmpl = "https://speiseplan.studierendenwerk-hamburg.de/{{.Language}}/570/{{.Year}}/{{.Day}}/"
+	CanteenID   = 158
+	MenuUrlTmpl = "https://www.stwhh.de/{{.LanguagePath}}?l={{.Location}}&t={{.Day}}"
 )
 
 func Show(request Request, language lang.Language) string {
@@ -74,18 +77,18 @@ func Show(request Request, language lang.Language) string {
 }
 
 func urlFor(request Request, language lang.Language) string {
-	params := UrlParams{"en", 2019, 0}
+	params := UrlParams{Location: CanteenID}
 
 	if request == Now {
-		params.Day = 0
+		params.Day = "today"
 	} else if request == Next {
-		params.Day = 99
+		params.Day = "next_day"
 	}
 
 	if language == lang.En {
-		params.Language = "en"
+		params.LanguagePath = "en/menu"
 	} else if language == lang.De {
-		params.Language = "de"
+		params.LanguagePath = "speiseplan"
 	}
 
 	tmpl, err := template.New("menuUrl").Parse(MenuUrlTmpl)
@@ -112,27 +115,49 @@ func parse(url string, siteBody io.ReadCloser) *Menu {
 		log.Fatal(err)
 	}
 
-	m.Date = doc.Find("tr#headline th.category").First().Text()
+	// Fuck this shit entirely. It used to be much easier. This will probably break.
+	m.Date = doc.Find(".button__text--highlight").First().Text()
 	m.Date = filter.Strip(m.Date)
 
-	doc.Find("div#plan tr.odd, div#plan tr.even").Each(
+	// STWHH returns data for all the canteens, but it is hidden, except for the one we requested.
+	// Are they out of their minds?
+	iHopeSomeoneGetsFiredOverThis := fmt.Sprintf(
+		"div.tx-epwerkmenu-menu-location-container[data-location-id=\"%d\"]",
+		CanteenID)
+	theCanteenWeReallyCareAboutWithoutOtherGarbage := doc.Find(iHopeSomeoneGetsFiredOverThis)
+	theCanteenWeReallyCareAboutWithoutOtherGarbage.Find("div.singlemeal").Each(
 		func(i int, dish *goquery.Selection) {
 			d := Dish{}
 
-			desc := dish.Find(".dish-description").First()
+			desc := dish.Find("h5.singlemeal__headline").First()
 
 			d.Label = desc.Text()
 			d.Label = filter.Perl(d.Label, "./label.pl")
 
-			d.Price = dish.Find(".price").First().Text()
-			d.Price = filter.Strip(d.Price)
+			// This used to be .price, but now we need to reach deep into the HTML and do bullshit regex heuristics.
+			somewhereDownHere := dish.Find(".singlemeal__bottom").Text()
+			matches := regexp.MustCompile("(\\d,\\d{2} €)\\s*(Studierende|Students)").FindStringSubmatch(somewhereDownHere)
+			if len(matches) > 2 {
+				d.Price = filter.Strip(matches[1])
+			} else {
+				d.Price = "[could not extract price]"
+			}
 
-			icons := desc.Find("img").Map(
-				func(j int, img *goquery.Selection) string {
-					attr, exists := img.Attr("alt")
+			// There used to be semantically valid alt-texts. Not anymore. Hope you're not blind.
+			icons := dish.Find(".singlemeal__icontooltip").Map(
+				func(j int, tooltip *goquery.Selection) string {
+					attr, exists := tooltip.Attr("title")
 
 					if exists {
-						return attr
+						// Parse the icon title out of the tooltip
+						matches := regexp.MustCompile("<b>(.*?)</b>").FindStringSubmatch(attr)
+						if len(matches) > 1 {
+							return matches[1]
+						} else {
+							html, _ := tooltip.Html()
+							log.Printf("could not extract title from tooltip: %s", html)
+							return ""
+						}
 					} else {
 						log.Fatalf("attr %s doesn't exist", attr)
 						return ""
