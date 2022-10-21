@@ -90,6 +90,7 @@ func main() {
 
 		msg := tgbotapi.NewMessage(update.Message.Chat.ID, rep.Translation(session.Language))
 		msg.ParseMode = "Markdown"
+		msg.DisableWebPagePreview = true
 
 		_, err = bot.Send(msg)
 		if err != nil {
